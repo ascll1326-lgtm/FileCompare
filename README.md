@@ -10,7 +10,7 @@
 - 폴더 선택 버튼을 통해 선택한 폴더의 경로를 텍스트 박스에 표시
 - ListView를 사용하여 폴더 내의 파일 목록을 표시
 - 양쪽 폴더 내의 파일을 비교하여 차이점을 색상으로 표시
-- 
+- 다른 폴더의 파일을 복사/덮어쓰기하는 기능 구현
 
 
 
@@ -56,15 +56,42 @@
 - 구현한 내용 (위 그림 참조)
 - 폴더 선택 버튼을 통해 선택한 폴더의 파일이 ListView에 표시되도록 구현하였다.
 - LisView에 표시된 파일들을 양쪽 폴더에서 비교하여 차이점을 색상으로 표시하도록 PopulateListView라는 함수를 만들어 구현하였다. 
-- ex) 한쪽 폴더에만 있는 경우 보라, 양쪽 동일한 파일이 있는 경우 검정, 이름은 같지만 내용이 다른 경우 수정일 기준으로 빨강/회색으로 구분
+- ex) 한쪽 폴더에만 있는 경우 보라, 양쪽 모두 동일한 파일이 있는 경우 검정, 이름은 같지만 내용이 다른 경우 수정일 기준으로 빨강/회색으로 구분
 
 
 
 ## 실행 화면 (과제3)
 - 코드의 실행 스크린샷과 구현 내용 설명
-![실행화면](img/screenshot-3.png)
+![실행화면](img/20260416_193650.gif)
+![image](img/screenshot-3.png)
 - 구현한 내용 (위 그림 참조)
-- 
+- CopySelectedFiles라는 함수를 새로 만들어서 ListView에서 선택된 파일들을 다른 폴더로 복사하거나 동일한 이름의 파일을 덮어 쓸 수 있도록 구현하였다.
+- 오래된 파일로 동일한 이름의 새로운 파일을 덮어 쓸 때는 사용자에게 확인 메시지를 표시하도록 구현하였다.
+- 확인 메세지 코드는 다음과 같다.
+- if (dstInfo.LastWriteTime > srcInfo.LastWriteTime)
+                    {
+                        var dr = MessageBox.Show(this,
+                            $"대상과 동일한 이름의 파일이 이미 있습니다.\n 대상 파일이 더 신규 파일입니다. 덮어쓰시겠습니까?" +
+                            $"\n" +
+                            $"원본: '{srcPath}\n대상: '{dstPath}'",
+                            
+                            
+
+                            "덮어쓰기 확인",
+                            MessageBoxButtons.YesNoCancel,
+                            MessageBoxIcon.Question);
+
+                        if (dr == DialogResult.Cancel)
+                        {
+                            // 전체 작업 취소
+                            break;
+                        }
+
+                        if (dr == DialogResult.No)
+                        {
+                            doCopy = false;
+                        }
+                    }
 
 
 
