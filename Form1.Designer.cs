@@ -232,6 +232,7 @@
             btnCopyFromRight.TabIndex = 1;
             btnCopyFromRight.Text = "<<<";
             btnCopyFromRight.UseVisualStyleBackColor = true;
+            btnCopyFromRight.Click += btnCopyFromRight_Click;
             // 
             // panel7
             // 
